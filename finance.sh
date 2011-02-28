@@ -13,6 +13,7 @@ do
                 if [ $running = "false" ]; then
                         year=`date +"%D" | sed 's/\//_/g'`
                         year="FinanceData${year}"
+                        #Change the address to condor.dcs.warwick.ac.uk when running on joshua,
                         nc localhost 9745 >> $year &
                         pid=$!
                         running="true"
@@ -31,3 +32,5 @@ do
         fi
         sleep 2s
 done
+
+#When you kill this script you must also kill the netcat command
