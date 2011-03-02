@@ -109,4 +109,24 @@ class stockFeed extends Thread
 			}
 		}
 	}
+	
+	public void decode(String str) {
+		String[] data = new String[6];
+		String symbol, name, time;
+		double bid, ask;
+		int volume;
+	
+		if (str != null) {
+			
+			data = str.split(",");
+			symbol = data[0].substring(0, 2);
+			name = data[1];
+			time = data[2];
+			bid = Double.parseDouble(data[3]);
+			ask = Double.parseDouble(data[4]);
+			volume = Integer.parseInt(data[5]);
+			               
+			
+		}		
+	}
 }
