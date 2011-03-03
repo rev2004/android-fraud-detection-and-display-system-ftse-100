@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.sql.*;
 
 class scrape
 {
@@ -110,7 +111,8 @@ class stockFeed extends Thread
 		}
 	}
 	
-	public void decode(String str) {
+	public void decode(String str) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+		String str = "\"TLW.L\",\"TULLOW OIL\",06:20:30,1435.0,1437.0,22581708"; //testing only
 		String[] data = new String[6];
 		String symbol, name, time;
 		double bid, ask;
@@ -125,8 +127,25 @@ class stockFeed extends Thread
 			bid = Double.parseDouble(data[3]);
 			ask = Double.parseDouble(data[4]);
 			volume = Integer.parseInt(data[5]);
-			               
+		
+			try {
 			
-		}		
+				Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306", "group17", "");
+				//System.out.println("Worked");
+				
+				PreparedStatement addshare = connect.prepareStatement("INSERT INTO group17_finance VALUES(NULL,?,?,?,?,?)");
+				
+				addshare.setString(1, symbol);
+				addshare.setString(2, time); //time is unix time
+				addshare.setString(3, bid);
+				addshare.setString(4, ask);
+				addshare.setString(5, volume);
+				
+				//addshare.executeUpdate();
+				
+			} catch(Exception e) {
+				System.out.println("Exception in Connection "+ e);
+			}
+		}	
 	}
 }
