@@ -41,7 +41,8 @@ class FinanceItem {
 	
 		try {
 			
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306", "group17", "");
+			//Change the port, use ssh tunneling from joshua to codd.
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:9611", "group17", "");
 			//System.out.println("Worked");
 			
 			PreparedStatement addshare = connect.prepareStatement("INSERT INTO group17_finance VALUES(NULL,?,?,?,?,?)");
