@@ -60,4 +60,13 @@ class FinanceItem {
 		}
 
 	}
+	
+	public void print() {
+	
+		System.out.println("Symbol: " + symbol);
+		System.out.println("Time: " + time);
+		System.out.println("Bin: " + bid);
+		System.out.println("Ask: " + ask);
+		System.out.println("Volume: " + volume);			
+	}
 }
