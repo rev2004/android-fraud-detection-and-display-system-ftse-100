@@ -41,6 +41,9 @@ class NewsItem
 		}
 		title = getTagData("ntitle", str);
 		body = getTagData("nbody", str);
+
+		// insert it into the database
+		Database.insertNewsItem(this);
 	}
 	
 	public String getTagData(String tag, String str)
@@ -59,29 +62,6 @@ class NewsItem
 	public String stripTags(String str)
 	{
 		return str.replaceAll("<.*?>", "");
-	}
-	
-	public void insert() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-	
-		try {
-			
-			//Change the port, use ssh tunneling from joshua to codd.
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:9611", "group17", "");
-			//System.out.println("Worked");
-			
-			PreparedStatement addshare = connect.prepareStatement("INSERT INTO group17_news VALUES(NULL,?,?,?,?)");
-			
-			/*addshare.setString(1, source);
-			addshare.setString(2, date); 
-			addshare.setDouble(3, title);
-			addshare.setDouble(4, body);
-			*/
-			//addshare.executeUpdate();
-			
-		} catch(Exception e) {
-			System.out.println("Exception in Connection "+ e);
-		}
-
 	}
 	
 	public void print()

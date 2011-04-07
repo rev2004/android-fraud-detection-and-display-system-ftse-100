@@ -1,7 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.*;
-
 
 class Scrape
 {
@@ -32,12 +30,12 @@ class Scrape
 	public static void main(String args[])
 	{
 		String host = "condor.dcs.warwick.ac.uk";
-		String inputLine;
-		char inputChar;
 		int newsPort = 4444;
 		int stockPort = 4445;
-		Socket newsSock, stockSock;
 		BufferedReader newsIn, stockIn;
+
+		// connect to the database
+		Database.connect();
 		
 		try
 		{
