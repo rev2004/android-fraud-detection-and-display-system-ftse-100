@@ -1,8 +1,13 @@
 import java.io.*;
 import java.net.*;
 
-class Scrape
+class Scrape extends Thread
 {
+	Scrape()
+	{
+		this.start();
+	}
+	
 	public static BufferedReader getFeed(String host, int port)
 	{
 		BufferedReader in = null;
@@ -26,8 +31,8 @@ class Scrape
 		
 		return in;
 	}
-		
-	public static void main(String args[])
+	
+	public void run()
 	{
 		String host = "condor.dcs.warwick.ac.uk";
 		int newsPort = 4444;
