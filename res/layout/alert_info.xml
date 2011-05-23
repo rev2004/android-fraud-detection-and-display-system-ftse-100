@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+    	android:background="@drawable/rectangle"
+    	android:layout_alignParentTop="true"
+    	android:layout_height="wrap_content"
+    	android:layout_width="fill_parent"
+    	android:orientation="vertical" 
+    	android:layout_marginTop="10dp"
+    	android:layout_marginBottom="10dp"
+    	android:layout_marginLeft="40dp"
+    	android:layout_marginRight="40dp"
+    	android:layout_weight="0"
+    >
+		<TextView  
+    		android:id="@+id/no"
+	    	android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+    		android:text="@string/no"
+    		android:gravity="center_horizontal"
+    		android:layout_alignParentTop="true"
+    		android:textSize="30sp"
+    	/>
+    	<TextView  
+    		android:id="@+id/points"
+	    	android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+    		android:text="@string/points"
+    		android:gravity="center_horizontal"
+    		android:layout_below="@+id/no"
+    	/>
+    </LinearLayout>
+
+    <ScrollView android:id="@+id/scrollNews"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:layout_weight="3"
+   	>
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:layout_width="fill_parent"
+   			android:layout_height="wrap_content"
+    		android:stretchColumns="2"
+    	>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+			 	/>
+        		<TextView
+            		android:text="News 1 string here..."
+            		android:gravity="center"
+				/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+            	/>
+        		<TextView
+            		android:text="News 2 string here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+            	/>
+        		<TextView
+            		android:text="News 3 string here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+            	/>
+        		<TextView
+            		android:text="News 4 string here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+            	/>
+        		<TextView
+            		android:text="News 5 string here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="BBC"
+            	/>
+        		<TextView
+            		android:text="News 6 string here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+        </TableLayout>
+    </ScrollView>
+    <ScrollView android:id="@+id/scrollRules"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:layout_weight="3"
+   	>
+		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:layout_width="fill_parent"
+   			android:layout_height="wrap_content"
+    		android:stretchColumns="2"
+    	>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="9"
+            	/>
+        		<TextView
+            		android:text="Broken rule 1 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="8"
+            	/>
+        		<TextView
+            		android:text="Broken rule 2 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="11"
+            	/>
+        		<TextView
+            		android:text="Broken rule 4 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="18"
+            	/>
+        		<TextView
+            		android:text="Broken rule 5 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="11"
+            	/>
+        		<TextView
+            		android:text="Broken rule 6 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="18"
+            	/>
+        		<TextView
+            		android:text="Broken rule 7 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="11"
+            	/>
+        		<TextView
+            		android:text="Broken rule 8 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="18"
+            	/>
+        		<TextView
+            		android:text="Broken rule 9 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="11"
+            	/>
+        		<TextView
+            		android:text="Broken rule 8 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+    		<TableRow>
+        		<TextView
+            		android:layout_column="1"
+            		android:text="18"
+            	/>
+        		<TextView
+            		android:text="Broken rule 9 here..."
+            		android:gravity="center"
+            	/>
+    		</TableRow>
+        </TableLayout>
+    </ScrollView>
+    
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_weight="0"
+    >
+    	<Button 
+    		android:text="Go Back" 
+    		android:id="@+id/back" 
+    		android:layout_height="wrap_content"
+    		android:onClick="finishActivity"
+    		android:layout_width="wrap_content"
+    		android:layout_weight="0"
+    	/>
+    	<Button 
+    		android:layout_height="wrap_content"
+    		android:text="@string/report_alert"
+    		android:layout_width="wrap_content"
+    		android:id="@+id/rptbutton"
+    		android:onClick="report"
+    		android:layout_weight="1"
+    	/>
+    	<Button 
+    		android:layout_height="wrap_content"
+    		android:text="Delete"
+    		android:layout_width="wrap_content"
+    		android:id="@+id/delete"
+    		android:layout_weight="0"
+   		/>
+    	
+    </LinearLayout>
+</LinearLayout>
