@@ -1,5 +1,9 @@
 package uk.starfish.marketalert;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import network.client.Client;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,12 +15,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class AlertsPage extends ListActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	  super.onCreate(savedInstanceState);
+    	  
+    	  //connect();
 
     	  String[] alert_name = getResources().getStringArray(R.array.alerts_array);
     	  setListAdapter(new ArrayAdapter<String>(this, R.layout.alert_item, alert_name));
@@ -82,4 +89,71 @@ public class AlertsPage extends ListActivity {
     	           }
           });
           builder.show();    }
+    
+
+	public void connect () {
+		// Create a new client object
+		Client client = new Client("86.25.186.203", 1234);
+
+		// Try to connect to the server
+		if (!client.connect())
+		{
+			// Failure
+			Toast.makeText(getApplicationContext(), 
+					"Connection failed", Toast.LENGTH_SHORT).show();
+			
+			client.reconnectLoop(0, 1000, -1);
+		}
+
+		Toast.makeText(getApplicationContext(), 
+				"Connected", Toast.LENGTH_SHORT).show();
+		
+		// Create the handler object
+		AppAlertHandler clientHandler = new AppAlertHandler(client);
+
+		// This next bit of code is just for testing the handler.
+		// Basically it just sends a request for an alert every time the user
+		// presses return.
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		try
+		{
+			while (input.readLine() != null)
+			{
+				clientHandler.requestAlert("4");
+			}
+		}
+		catch (Exception e)
+		{
+            System.err.println(e.getMessage());
+			System.exit(-1);
+        }
+	}
+}
+
+// Handler class
+class AppAlertHandler extends AlertHandler {
+	// Constructor
+	AppAlertHandler(Client client) { super(client); }
+
+	// When an alert is received from the server
+	public void handleAlert(Alert alert)
+	{
+	
+		/*
+		System.out.println("RECIEVED ALERT");
+		System.out.println("ID: " + alert.id);
+		System.out.println("Time: " + alert.time);
+		System.out.println("Points: " + alert.points);
+		System.out.println("Rules Broken: " + Util.implode(alert.rules, ","));
+		System.out.println("Related News: " + Util.implode(alert.news, ","));
+		System.out.println("Companies Involved: " + Util.implode(alert.companies, ","));
+		System.out.println();
+		*/
+	}
+
+	// When the server disconnects
+	public void handleDisconnect()
+	{
+		client.reconnectLoop(0, 1000, -1);
+	}
 }
