@@ -12,10 +12,10 @@ class FinanceItem {
 
 	FinanceItem(String str) {
 	
-		decode(str);
+		decodeFromFeed(str);
 	}
 	
-	public void decode(String str) {
+	public void decodeFromFeed(String str) {
 	
 	Calendar cal = Calendar.getInstance();
 	int day = cal.get(Calendar.DATE);

@@ -27,7 +27,7 @@ class NewsItem
 	
 	NewsItem(String str)
 	{
-		decode(str);
+		decodeFromFeed(str);
 	}
 
 	NewsItem(String source, Date date, String title, String body)
@@ -38,7 +38,7 @@ class NewsItem
 		this.body = body;
 	}
 			
-	public void decode(String str)
+	public void decodeFromFeed(String str)
 	{
 		source = getTagData("nsource", str);
 		try
@@ -83,7 +83,7 @@ class NewsItem
 
 	// Decodes a news from String format
 	// Returns the decoded news
-	public static NewsItem decodeMsg(String msg)
+	public static NewsItem decode(String msg)
 	{
 		// Split the message up into an array
 		String[] bit = msg.split(SEP);
@@ -104,7 +104,7 @@ class NewsItem
 		NewsItem[] news = new NewsItem[msg.length];
 		for (int i = 0; i < msg.length; i ++)
 		{
-			news[i] = decodeMsg(msg[i]);
+			news[i] = decode(msg[i]);
 		}
 		return news;
 	}
