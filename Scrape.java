@@ -34,16 +34,16 @@ class Scrape extends Thread
 	
 	public void run()
 	{
-		String host = "condor.dcs.warwick.ac.uk";
+		/*String host = "condor.dcs.warwick.ac.uk";
 		int newsPort = 1720;
-		int stockPort = 3389;
+		int stockPort = 3389;*/
 		BufferedReader newsIn, stockIn;
 
 		
 		try
 		{
-			newsIn = getFeed(host, newsPort);
-			stockIn = getFeed(host, stockPort);
+			newsIn = getFeed(Config.newsFeedHost, Config.newsFeedPort);
+			stockIn = getFeed(Config.stockFeedHost, Config.stockFeedPort);
 			
 			new NewsFeed(newsIn);
 			new StockFeed(stockIn);
@@ -83,7 +83,7 @@ class NewsFeed extends Thread
 					{
 						NewsItem n = new NewsItem(inputLine);
 						//Database.insertNewsItem(n);
-						n.print();
+						//n.print();
 						inputLine = "";
 					}
 			}
@@ -113,10 +113,9 @@ class StockFeed extends Thread
 			try
 			{
 				inputLine = in.readLine().replaceAll("\"","").replaceAll(".L,",",");
-				System.out.println(inputLine);
 				FinanceItem f = new FinanceItem(inputLine);
 				//Database.insertFinanceItem(fi);
-				f.print();
+				//f.print();
 				inputLine = "";
 			}
 			catch (Exception e)
