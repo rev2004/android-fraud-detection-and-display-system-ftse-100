@@ -42,9 +42,6 @@ class FinanceItem {
 			bid = Double.parseDouble(data[3]);
 			ask = Double.parseDouble(data[4]);
 			volume = Integer.parseInt(data[5]);
-
-			
-			PriceChanges.volumeCheck(symbol, volume, /*(int) (datetime.getTime() / 1000)*/ 1306252591);
 		}
 		
 	}	

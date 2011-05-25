@@ -1,10 +1,11 @@
 // Controls the flow of the whole server
+import network.server.Server;
 
 public class Main
 {
 	public static void main(String args[])
 	{
-		/*// Create a server
+		// Create a server
 		Server server = new Server(9011);
 
 		// Attempt to start listening
@@ -16,10 +17,10 @@ public class Main
 		}
 
 		// Create a handle to the server
-		new AlertServerHandler(server);*/
+		new AlertServerHandler(server);
 
 		// Gets the feeds
-		//new Scrape();
+		new Scrape();
 
 		//FinanceItem f = new FinanceItem("RR,TULLOW OIL,15:51:26,1290.00,1291.00,833031");
 		//f.print();

@@ -39,8 +39,6 @@ class Scrape extends Thread
 		int stockPort = 3389;
 		BufferedReader newsIn, stockIn;
 
-		// connect to the database
-		Database.connect();
 		
 		try
 		{
@@ -83,9 +81,9 @@ class NewsFeed extends Thread
 				if (inputChar == '>')
 					if (inputLine.contains("</nitem>"))
 					{
-						//NewsItem n = new NewsItem(inputLine);
+						NewsItem n = new NewsItem(inputLine);
 						//Database.insertNewsItem(n);
-						//System.out.println(inputLine);
+						n.print();
 						inputLine = "";
 					}
 			}
@@ -115,9 +113,10 @@ class StockFeed extends Thread
 			try
 			{
 				inputLine = in.readLine().replaceAll("\"","").replaceAll(".L,",",");
-				//System.out.println(inputLine);
-				//FinanceItem f = new FinanceItem(inputLine);
+				System.out.println(inputLine);
+				FinanceItem f = new FinanceItem(inputLine);
 				//Database.insertFinanceItem(fi);
+				f.print();
 				inputLine = "";
 			}
 			catch (Exception e)
