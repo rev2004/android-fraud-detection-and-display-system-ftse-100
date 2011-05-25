@@ -35,8 +35,8 @@ class Scrape extends Thread
 	public void run()
 	{
 		String host = "condor.dcs.warwick.ac.uk";
-		int newsPort = 4444;
-		int stockPort = 4445;
+		int newsPort = 1720;
+		int stockPort = 3389;
 		BufferedReader newsIn, stockIn;
 
 		// connect to the database
@@ -83,8 +83,9 @@ class NewsFeed extends Thread
 				if (inputChar == '>')
 					if (inputLine.contains("</nitem>"))
 					{
-						NewsItem n = new NewsItem(inputLine);
-						n.print();
+						//NewsItem n = new NewsItem(inputLine);
+						//Database.insertNewsItem(n);
+						//System.out.println(inputLine);
 						inputLine = "";
 					}
 			}
@@ -113,9 +114,11 @@ class StockFeed extends Thread
 		{
 			try
 			{
-				inputLine = in.readLine();
+				inputLine = in.readLine().replaceAll("\"","").replaceAll(".L,",",");
 				//System.out.println(inputLine);
-				 // FinanceItem f = new FinanceItem(inputLine);
+				//FinanceItem f = new FinanceItem(inputLine);
+				//Database.insertFinanceItem(fi);
+				inputLine = "";
 			}
 			catch (Exception e)
 			{
