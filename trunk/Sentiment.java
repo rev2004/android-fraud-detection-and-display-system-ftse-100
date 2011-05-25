@@ -23,10 +23,9 @@ class Sentiment {
 
 		Document doc = alchemyObj.TextGetTextSentiment(text);
 		String xml = getStringFromDocument(doc);
-		System.out.println(xml);
-		String analysis = getTagData(xml, "type");
-		System.out.println(analysis);
-		if (analysis.equals("positive")) {
+		//System.out.println(xml);
+		
+		if (xml.contains("positive")) {
 			return true;
 		} else {
 			return false;
@@ -40,26 +39,8 @@ class Sentiment {
 		}
 
 
-		return true;
+		return false;
 
-	}
-	
-	public static String getTagData(String tag, String str)
-	{
-		Pattern pattern = Pattern.compile("<" + tag + ">.*</" + tag + ">");
-		Matcher matcher = pattern.matcher(str);
-		
-		if (matcher.find())
-		{
-			return (matcher.group());
-		}
-		else
-			return "";
-	}
-	
-	public static String stripTags(String str)
-	{
-		return str.replaceAll("<.*?>", "");
 	}
 	
 	private static String getStringFromDocument(Document doc) {
