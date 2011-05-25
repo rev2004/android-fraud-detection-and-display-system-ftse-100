@@ -6,7 +6,7 @@ public class Main
 	public static void main(String args[])
 	{
 		// Create a server
-		Server server = new Server(9011);
+		/*Server server = new Server(9011);
 
 		// Attempt to start listening
 		if (!server.listen())
@@ -23,7 +23,16 @@ public class Main
 		Database.connect();
 		new Scrape();
 
-		new RuleEngine(server);
+		new RuleEngine(server);*/
+
+		Database.connect();
+		/*Database.insertIncreaseValue("RR","ask",20,3000,true);
+		Database.insertIncreaseValue("RR","ask",20,5000,true);
+		Database.insertIncreaseValue("RR","ask",20,12000,true);
+		Database.insertIncreaseValue("RR","ask",20,24000,true);*/
+		
+		int[] temp = Database.getIncreaseTimes("RR","ask",0,true);
+		System.out.println(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
 
 	}
 }

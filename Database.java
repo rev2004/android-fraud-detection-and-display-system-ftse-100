@@ -268,11 +268,7 @@ class Database
 					ps.executeUpdate();
 				
 				}
-				
-// 				ps.close();
-// 				rs.close();
-// 				cxn.close();
-				
+			
 			}
 			catch(Exception e)
 			{
@@ -303,5 +299,56 @@ class Database
 			System.exit(-1);
 		}
 		return companies;
+	}
+	
+	//select percent, datetime, datetime_end, increase from group17_increases where company = 'RR' AND type = 'ask' and datetime > start of today AND ;
+	
+	public static int[] getIncreaseTimes(String company, String type, int startTime, boolean increase) {
+	
+		int[] times;
+		int count;
+		int i = 0;
+		try
+		{
+			ps = cxn.prepareStatement("SELECT COUNT(*) FROM group17_increases where company = ? and type = ? and datetime > ? and increase = ?");
+			ps.setString(1, company);
+			ps.setString(2, type);
+			ps.setInt(3, startTime);
+			ps.setBoolean(4, increase);
+			rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+
+			if (count > 0) {
+				
+				times = new int[count];
+				
+				ps = cxn.prepareStatement("SELECT datetime FROM group17_increases where company = ? and type = ? and datetime > ? and increase = ?");
+				ps.setString(1, company);
+				ps.setString(2, type);
+				ps.setInt(3, startTime);
+				ps.setBoolean(4, increase);
+				rs = ps.executeQuery();
+				System.out.println(ps);
+				while (rs.next()) {
+					
+					times[i] = rs.getInt(1);
+					System.out.println(times[i]);
+					i++;
+				
+				}
+				return times;
+				
+			}
+	
+	
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in getIncreaseTimes " + e);
+			System.exit(-1);
+		}	
+		return null;
+	
 	}
 }
