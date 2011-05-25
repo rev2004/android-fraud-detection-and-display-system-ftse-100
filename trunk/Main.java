@@ -6,7 +6,7 @@ public class Main
 	public static void main(String args[])
 	{
 		// Create a server
-		Server server = new Server(9011);
+		Server server = new Server(Config.serverPort);
 
 		// Attempt to start listening
 		if (!server.listen())
@@ -15,6 +15,8 @@ public class Main
 			System.out.println("Failed to listen");
 			return;
 		}
+
+		System.out.println("Server is listening on port: " + Config.serverPort);
 
 		// Create a handle to the server
 		new AlertServerHandler(server);
