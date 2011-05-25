@@ -20,6 +20,7 @@ class NewsItem
 	public Date date;
 	public String title;
 	public String body;
+	public boolean anaysis;
 
 	private static String SEP = "_NEWSSEP_";
 
@@ -27,7 +28,7 @@ class NewsItem
 	
 	NewsItem(String str)
 	{
-		decodeFromFeed(str);
+		decode(str);
 	}
 
 	NewsItem(String source, Date date, String title, String body)
@@ -37,8 +38,12 @@ class NewsItem
 		this.title = title;
 		this.body = body;
 	}
+
+	public void setAnaysis(boolean anaysis) {
+		this.anaysis = anaysis;
+	}
 			
-	public void decodeFromFeed(String str)
+	public void decode(String str)
 	{
 		source = getTagData("nsource", str);
 		try
@@ -83,7 +88,7 @@ class NewsItem
 
 	// Decodes a news from String format
 	// Returns the decoded news
-	public static NewsItem decode(String msg)
+	public static NewsItem decodeMsg(String msg)
 	{
 		// Split the message up into an array
 		String[] bit = msg.split(SEP);
@@ -104,7 +109,7 @@ class NewsItem
 		NewsItem[] news = new NewsItem[msg.length];
 		for (int i = 0; i < msg.length; i ++)
 		{
-			news[i] = decode(msg[i]);
+			news[i] = decodeMsg(msg[i]);
 		}
 		return news;
 	}

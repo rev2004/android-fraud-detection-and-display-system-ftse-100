@@ -15,7 +15,6 @@ class RuleItem
 	// Returns the decoded rule
 	public static RuleItem decode(String msg)
 	{	
-	System.out.println(msg);
 		// Split the message up into an array
 		String[] bit = msg.split(SEP);
 
