@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Calendar;
 
 class Database
 {
@@ -78,15 +79,26 @@ class Database
 			
 			if (i == 0) {
 
-			  ps = cxn.prepareStatement("INSERT group17_news VALUES(?, ?, ?, ?, ?)");
-			  
-			  ps.setString(1, ni.source);
-			  ps.setInt(2, time); //date is unix time
-			  ps.setString(3, ni.title);
-			  ps.setString(4, ni.body);
-			  ps.setBoolean(5, ni.anaysis);
-			  ps.executeUpdate();
-
+				ps = cxn.prepareStatement("INSERT group17_news (source, datetime, title, body, analysis) VALUES(?, ?, ?, ?, ?)");
+				
+				ps.setString(1, ni.source);
+				ps.setInt(2, time); //date is unix time
+				ps.setString(3, ni.title);
+				ps.setString(4, ni.body);
+				ps.setBoolean(5, ni.anaysis);
+				ps.executeUpdate();
+				
+				ps = cxn.prepareStatement("SELECT id from group17_news where source = ? AND datetime = ? AND title  = ?");
+				ps.setString(1, ni.source);
+				ps.setInt(2, time); 
+				ps.setString(3, ni.title);				
+				rs = ps.executeQuery();
+				
+				rs.next();
+				int id = rs.getInt(1);
+				System.out.println(id);
+				
+				findCompanies(ni, id);
 			}
 
 			ps.close();
@@ -101,6 +113,87 @@ class Database
 		}
 
 		
+	}
+	
+	public static void insertRating(String company, boolean rating, int newsid) {
+		Calendar cal = Calendar.getInstance();
+		int day = cal.get(Calendar.DATE);
+		int year = cal.get(Calendar.YEAR);
+		int id;
+		connect();
+		
+		try {
+			ResultSet rs;
+			PreparedStatement ps = cxn.prepareStatement("SELECT id, amount FROM group17_rating WHERE company = ? AND rating = ? AND day = ? AND year = ?");
+			ps.setString(1, company);
+			ps.setBoolean(2, rating);
+			ps.setInt(3, day);
+			ps.setInt(4, year);
+			//System.out.println(ps);
+			rs = ps.executeQuery();
+				if (rs.next()) {
+					id = rs.getInt("id");
+					int amount = rs.getInt("amount") + 1;
+					
+					ps = cxn.prepareStatement("UPDATE group17_rating SET amount = ? WHERE id = ?");
+					ps.setInt(1, amount);
+					ps.setInt(2, id);
+					ps.executeUpdate();
+					//System.out.println(ps);
+				} else {
+				
+					ps = cxn.prepareStatement("INSERT group17_rating (company, rating, day, year, amount) VALUES(?, ?, ?, ?, 1)");
+					ps.setString(1, company);
+					ps.setBoolean(2, rating);
+					ps.setInt(3, day);
+					ps.setInt(4, year);
+					ps.executeUpdate();
+					
+					ps = cxn.prepareStatement("SELECT id FROM group17_rating WHERE company = ? AND rating = ? AND day = ? AND year = ?");
+					ps.setString(1, company);
+					ps.setBoolean(2, rating);
+					ps.setInt(3, day);
+					ps.setInt(4, year);
+					rs = ps.executeQuery();
+					
+					rs.next();
+					id = rs.getInt(1);
+					
+					ps = cxn.prepareStatement("INSERT group17_news_rating (news_id, rating_id) VALUES(?, ?)");
+					ps.setInt(1, newsid);
+					ps.setInt(2, id);
+					ps.executeUpdate();
+				}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in Connection " + e);
+			System.exit(-1);
+		}
+	}
+
+	public static void findCompanies(NewsItem ni, int newsid) {
+		connect();
+		try 
+		{
+			ResultSet rs;
+			PreparedStatement ps = cxn.prepareStatement("SELECT * FROM group17_companies");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String symbol = rs.getString("symbol");
+				String company = rs.getString("name");
+				
+				if (Sentiment.company(company, symbol, ni.title, ni.body)) {
+					insertRating(symbol, ni.anaysis, newsid);
+					System.out.println(company);
+				}
+			}
+		}
+			catch(Exception e)
+		{
+			System.out.println("Exception in Connection " + e);
+			System.exit(-1);
+		}
 	}
 
 	public static int getFinanceData(String type, String company, int time1, int time2) {
@@ -152,7 +245,7 @@ class Database
 				rs = ps.executeQuery();
 				if (rs.next()) {
 					int id = rs.getInt(1);
-					System.out.println(id);
+					//System.out.println(id);
 										
 					ps = cxn.prepareStatement("UPDATE group17_increases SET datetime_end = ?  WHERE id = ?");
 					ps.setInt(1, time);
@@ -160,7 +253,7 @@ class Database
 					ps.executeUpdate();
 				
 				} else {
-					System.out.println("adding new");
+					//System.out.println("adding new");
 					ps = cxn.prepareStatement("INSERT group17_increases (company, type, percent, datetime, increase) VALUES(?, ?, ?, ?, ?)");
 					
 					ps.setString(1, company);
