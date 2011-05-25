@@ -21,7 +21,9 @@ class Database
 	
 	public static void insertFinanceItem(FinanceItem fi)
 	{
-
+		// Check Price
+		PriceChanges.volumeCheck(symbol, volume, /*(int) (datetime.getTime() / 1000)*/ 1306252591);
+		
 		connect();
 		try
 		{
