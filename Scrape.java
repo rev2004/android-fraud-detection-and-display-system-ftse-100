@@ -83,11 +83,11 @@ class NewsFeed extends Thread
 					if (inputLine.contains("</nitem>"))
 					{
 						NewsItem n = new NewsItem(inputLine);
-						anaysis = Sentiment.analysis(n.title + " " + n.body);
-						n.setAnaysis(anaysis);
-						
+						//anaysis = Sentiment.analysis(n.title + " " + n.body);
+						n.setAnaysis(true);
+
 						Database.insertNewsItem(n);
-						
+
 						inputLine = "";
 					}
 			}
@@ -118,8 +118,12 @@ class StockFeed extends Thread
 			{
 				inputLine = in.readLine().replaceAll("\"","").replaceAll(".L,",",");
 				FinanceItem f = new FinanceItem(inputLine);
-				//Database.insertFinanceItem(fi);
-				f.print();
+
+				PriceChanges.volumeCheck(f.symbol, f.volume, (int) (f.datetime.getTime() / 1000));
+				
+				Database.insertFinanceItem(f);
+
+				//f.print();
 				inputLine = "";
 			}
 			catch (Exception e)

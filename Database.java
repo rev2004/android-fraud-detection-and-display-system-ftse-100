@@ -4,6 +4,9 @@ import java.util.Calendar;
 class Database
 {
 	public static Connection cxn;
+	public static boolean lock = false;
+	public static ResultSet rs;
+	public static PreparedStatement ps;
 	
 	public static void connect()
 	{
@@ -15,29 +18,30 @@ class Database
 					}
 		catch (Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in Connect " + e);
 			System.exit(-1);
 		}
 	}
 	
 	public static void insertFinanceItem(FinanceItem fi)
 	{
-
-		connect();
+		int i = 0;
+// 		connect();
 		try
 		{
 
 			int time = (int) (fi.datetime.getTime() / 1000);
 			
 
-			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT volume FROM group17_finance WHERE symbol = ? ORDER BY datetime desc");			
+			ps = cxn.prepareStatement("SELECT volume FROM group17_finance WHERE symbol = ? ORDER BY datetime desc");			
 			ps.setString(1, fi.symbol);
 
 			rs = ps.executeQuery();
-			rs.next();
-			int i = rs.getInt(1);
-
+			if (rs.next()) {
+				i = rs.getInt(1);
+			}
+			
+			
 			int volume = Math.max(fi.volume, i); 
 
 			ps = cxn.prepareStatement("insert group17_finance values(?, ?, ?, ?, ?)");
@@ -49,13 +53,10 @@ class Database
 			ps.setInt(5,volume);
 			ps.executeUpdate();
 
-			cxn.close();
-			ps.close();
-						
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in insertFinanceItem " + e);
 			System.exit(-1);
 		}
 
@@ -63,19 +64,20 @@ class Database
 
 	public static void insertNewsItem(NewsItem ni)
 	{
-		connect();
+		int i = 0;
+// 		connect();
 		try
 		{
 			int time = (int) (ni.date.getTime() / 1000);
 			
-			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT COUNT(*) from group17_news where source = ? AND datetime = ? AND title  = ?");			
+			ps = cxn.prepareStatement("SELECT COUNT(*) from group17_news where source = ? AND datetime = ? AND title  = ?");			
 			ps.setString(1, ni.source);
 			ps.setInt(2, time); 
 			ps.setString(3, ni.title);
 			rs = ps.executeQuery();
-			rs.next();
-			int i = rs.getInt(1);
+			if (rs.next()) {
+				i = rs.getInt(1);
+			}
 			
 			if (i == 0) {
 
@@ -96,19 +98,16 @@ class Database
 				
 				rs.next();
 				int id = rs.getInt(1);
-				System.out.println(id);
+				//System.out.println(id);
 				
 				findCompanies(ni, id);
 			}
 
-			ps.close();
-			rs.close();
-			cxn.close();
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in insertNewsItem " + e);
 			System.exit(-1);
 		}
 
@@ -120,11 +119,10 @@ class Database
 		int day = cal.get(Calendar.DATE);
 		int year = cal.get(Calendar.YEAR);
 		int id;
-		connect();
+// 		connect();
 		
 		try {
-			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT id, amount FROM group17_rating WHERE company = ? AND rating = ? AND day = ? AND year = ?");
+			ps = cxn.prepareStatement("SELECT id, amount FROM group17_rating WHERE company = ? AND rating = ? AND day = ? AND year = ?");
 			ps.setString(1, company);
 			ps.setBoolean(2, rating);
 			ps.setInt(3, day);
@@ -164,20 +162,23 @@ class Database
 					ps.setInt(2, id);
 					ps.executeUpdate();
 				}
+				
+// 				ps.close();
+// 				rs.close();
+// 				cxn.close();
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in insertRating " + e);
 			System.exit(-1);
 		}
 	}
 
 	public static void findCompanies(NewsItem ni, int newsid) {
-		connect();
+// 		connect();
 		try 
 		{
-			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT * FROM group17_companies");
+			ps = cxn.prepareStatement("SELECT * FROM group17_companies");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				String symbol = rs.getString("symbol");
@@ -185,24 +186,27 @@ class Database
 				
 				if (Sentiment.company(company, symbol, ni.title, ni.body)) {
 					insertRating(symbol, ni.anaysis, newsid);
-					System.out.println(company);
+					//System.out.println(company);
 				}
 			}
+			
+// 			ps.close();
+// 			rs.close();
+// 			cxn.close();
 		}
 			catch(Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in findCompanies " + e);
 			System.exit(-1);
 		}
 	}
 
 	public static int getFinanceData(String type, String company, int time1, int time2) {
 
-		connect();
+// 		connect();
 		try
 		{
-			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT " + type + " from group17_finance where symbol = ? AND datetime > ? AND datetime < ? ORDER BY datetime desc");			
+			ps = cxn.prepareStatement("SELECT " + type + " from group17_finance where symbol = ? AND datetime > ? AND datetime < ? ORDER BY datetime desc");			
 			ps.setString(1, company);
 			ps.setInt(2, time1); 
 			ps.setInt(3, time2);
@@ -211,19 +215,20 @@ class Database
 			
 			if (rs.next()) {
 			      int i = rs.getInt(1);
-			      rs.close();
-			      ps.close();
-			      cxn.close();
+// 			      rs.close();
+// 			      ps.close();
+// 			      cxn.close();
 			      return i;
+			} else {
+// 				rs.close();
+// 				ps.close();
+// 				cxn.close();
 			}
-			rs.close();
-			ps.close();
-			cxn.close();
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in Connection " + e);
+			System.out.println("Exception in getFinanceData " + e);
 			System.exit(-1);
 		}
 
@@ -233,11 +238,10 @@ class Database
 	
 	public static void insertIncreaseValue(String company, String type, double percent, int time, boolean increase) {
 			//get increase for same company and type in the last 5 mins, if there is one add a end time, else create new one
-			connect();
+// 			connect();
 			try
 			{
-				ResultSet rs;
-				PreparedStatement ps = cxn.prepareStatement("SELECT id FROM group17_increases WHERE company = ? AND type = ? AND datetime > ? AND increase = ?");
+				ps = cxn.prepareStatement("SELECT id FROM group17_increases WHERE company = ? AND type = ? AND datetime > ? AND increase = ?");
 				ps.setString(1, company);
 				ps.setString(2, type);
 				ps.setInt(3, time - 300); //Any within the last 5 mins
@@ -265,14 +269,39 @@ class Database
 				
 				}
 				
+// 				ps.close();
+// 				rs.close();
+// 				cxn.close();
+				
 			}
 			catch(Exception e)
 			{
-				System.out.println("Exception in Connection " + e);
+				System.out.println("Exception in insertIncreaseValue " + e);
 				System.exit(-1);
 			}
-
 	}
-
-
+	
+	public static String[] getCompanies() {
+	
+		String[] companies = new String[102];
+		int i = 0;
+		
+		try
+		{
+			ps = cxn.prepareStatement("SELECT symbol FROM group17_companies");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+			
+				companies[i] = rs.getString("symbol");
+				i++;
+				
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in insertIncreaseValue " + e);
+			System.exit(-1);
+		}
+		return companies;
+	}
 }
