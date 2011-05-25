@@ -27,6 +27,7 @@ public final class R {
         public static final int ic_menu_preferences=0x7f020008;
         public static final int icon=0x7f020009;
         public static final int rectangle=0x7f02000a;
+        public static final int stat_notify_error=0x7f02000b;
     }
     public static final class id {
         public static final int appname=0x7f090009;
