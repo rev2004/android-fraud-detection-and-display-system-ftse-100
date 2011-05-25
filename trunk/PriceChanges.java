@@ -13,12 +13,14 @@ import java.io.*;
 		      int[] oldvolume = new int[length];
 
 		      for (int i=0; i<length; i++) {
-			      oldvolume[i] = Database.getFinanceData("volume", company, time - (times[i]*60) - range, time - (times[i]*60) + range);
+					oldvolume[i] = Database.getFinanceData("volume", company, time - (times[i]*60) - range, time - (times[i]*60) + range);
+					if (oldvolume[i] != 0) {
 
-			      if (oldvolume[i] * 1.05 > volume) {
-				    //Store company name, time of increase and say it was volume increase
-						Database.insertIncreaseValue(company,"volume",(volume / oldvolume[i]),time, true);
-			      }
+						if (oldvolume[i] * 1.05 > volume) {
+							//Store company name, time of increase and say it was volume increase
+								Database.insertIncreaseValue(company,"volume",(volume / oldvolume[i]),time, true);
+						}
+					}
 		      }
 
 		     

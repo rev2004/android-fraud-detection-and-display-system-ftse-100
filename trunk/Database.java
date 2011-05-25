@@ -136,7 +136,7 @@ class Database
 			System.exit(-1);
 		}
 
-
+		//no data
 		return 0;
 	}
 	
