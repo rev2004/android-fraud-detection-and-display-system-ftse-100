@@ -42,8 +42,6 @@ class NewsItem
 		title = getTagData("ntitle", str);
 		body = getTagData("nbody", str);
 
-		// insert it into the database
-		Database.insertNewsItem(this);
 	}
 	
 	public String getTagData(String tag, String str)
