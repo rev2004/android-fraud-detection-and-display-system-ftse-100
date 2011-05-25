@@ -83,7 +83,7 @@ class NewsFeed extends Thread
 					if (inputLine.contains("</nitem>"))
 					{
 						NewsItem n = new NewsItem(inputLine);
-						anaysis = Sentiment.anaysis();
+						anaysis = Sentiment.analysis(n.title + " " + n.body);
 						n.setAnaysis(anaysis);
 						
 						Database.insertNewsItem(n);
