@@ -1,12 +1,11 @@
 // Controls the flow of the whole server
-import network.server.Server;
 
 public class Main
 {
 	public static void main(String args[])
 	{
-		// Create a server
-		Server server = new Server(Config.serverPort);
+		/*// Create a server
+		Server server = new Server(9011);
 
 		// Attempt to start listening
 		if (!server.listen())
@@ -16,10 +15,8 @@ public class Main
 			return;
 		}
 
-		System.out.println("Server is listening on port: " + Config.serverPort);
-
 		// Create a handle to the server
-		new AlertServerHandler(server);
+		new AlertServerHandler(server);*/
 
 		// Gets the feeds
 		new Scrape();

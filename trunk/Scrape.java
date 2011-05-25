@@ -72,6 +72,7 @@ class NewsFeed extends Thread
 	
 	public void run()
 	{
+		boolean anaysis;
 		while (true)
 		{
 			try
@@ -82,8 +83,11 @@ class NewsFeed extends Thread
 					if (inputLine.contains("</nitem>"))
 					{
 						NewsItem n = new NewsItem(inputLine);
-						//Database.insertNewsItem(n);
-						//n.print();
+						anaysis = Sentiment.anaysis();
+						n.setAnaysis(anaysis);
+						
+						Database.insertNewsItem(n);
+						
 						inputLine = "";
 					}
 			}
@@ -115,7 +119,7 @@ class StockFeed extends Thread
 				inputLine = in.readLine().replaceAll("\"","").replaceAll(".L,",",");
 				FinanceItem f = new FinanceItem(inputLine);
 				//Database.insertFinanceItem(fi);
-				//f.print();
+				f.print();
 				inputLine = "";
 			}
 			catch (Exception e)

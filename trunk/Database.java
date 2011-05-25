@@ -21,9 +21,7 @@ class Database
 	
 	public static void insertFinanceItem(FinanceItem fi)
 	{
-		// Check Price
-		PriceChanges.volumeCheck(symbol, volume, /*(int) (datetime.getTime() / 1000)*/ 1306252591);
-		
+
 		connect();
 		try
 		{
@@ -68,8 +66,7 @@ class Database
 		try
 		{
 			int time = (int) (ni.date.getTime() / 1000);
-			boolean analyse = false;
-
+			
 			ResultSet rs;
 			PreparedStatement ps = cxn.prepareStatement("SELECT COUNT(*) from group17_news where source = ? AND datetime = ? AND title  = ?");			
 			ps.setString(1, ni.source);
@@ -87,7 +84,7 @@ class Database
 			  ps.setInt(2, time); //date is unix time
 			  ps.setString(3, ni.title);
 			  ps.setString(4, ni.body);
-			  ps.setBoolean(5, analyse);
+			  ps.setBoolean(5, ni.anaysis);
 			  ps.executeUpdate();
 
 			}
@@ -112,12 +109,11 @@ class Database
 		try
 		{
 			ResultSet rs;
-			PreparedStatement ps = cxn.prepareStatement("SELECT ? from group17_finance where symbol = ? AND datetime > ? AND datetime  < ? ORDER BY datetime desc");			
-			ps.setString(1, type);
-			ps.setString(2, company);
-			ps.setInt(3, time1); 
-			ps.setInt(4, time2);
-			System.out.println(ps.toString());
+			PreparedStatement ps = cxn.prepareStatement("SELECT " + type + " from group17_finance where symbol = ? AND datetime > ? AND datetime < ? ORDER BY datetime desc");			
+			ps.setString(1, company);
+			ps.setInt(2, time1); 
+			ps.setInt(3, time2);
+			//System.out.println(ps.toString());
 			rs = ps.executeQuery();
 			
 			if (rs.next()) {
@@ -157,8 +153,7 @@ class Database
 				if (rs.next()) {
 					int id = rs.getInt(1);
 					System.out.println(id);
-					rs.close();
-					
+										
 					ps = cxn.prepareStatement("UPDATE group17_increases SET datetime_end = ?  WHERE id = ?");
 					ps.setInt(1, time);
 					ps.setInt(2, id);
@@ -166,7 +161,6 @@ class Database
 				
 				} else {
 					System.out.println("adding new");
-					rs.close();
 					ps = cxn.prepareStatement("INSERT group17_increases (company, type, percent, datetime, increase) VALUES(?, ?, ?, ?, ?)");
 					
 					ps.setString(1, company);
