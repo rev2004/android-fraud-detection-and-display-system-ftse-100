@@ -186,7 +186,7 @@ class Database
 				
 				if (Sentiment.company(company, symbol, ni.title, ni.body)) {
 					insertRating(symbol, ni.anaysis, newsid);
-					RuleEngine.checkRules(symbol);
+					RuleEngine.checkRulesNews(symbol, ni);
 					//System.out.println(company);
 				}
 			}
