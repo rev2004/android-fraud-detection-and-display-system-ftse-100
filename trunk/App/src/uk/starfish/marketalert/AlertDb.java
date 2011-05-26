@@ -36,6 +36,20 @@ public class AlertDb
 		alerts.add(alert);
 	}
 
+	public void delete(String id);
+	{
+		for (int i = 0; i < alerts.size(); i ++)
+		{
+			Alert alert = (Alert) alerts.get(i);
+			if (alert.id == id)
+			{
+				alerts.remove(i);
+				return;
+			}
+		}
+	}
+				
+
 	public void decode(String s)
 	{
 		alerts.clear();
