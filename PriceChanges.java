@@ -38,8 +38,10 @@ import java.io.*;
 			      if (oldask[i] * 1.05 > ask) {
 				    //Store company name, time of increase and say it was volume increase
 						Database.insertIncreaseValue(company,"ask",(ask / oldask[i]),time, true);
+						RuleEngine.checkRules(company);
 			      } else if (oldask[i] * 0.95 < ask) {
 						Database.insertIncreaseValue(company,"ask",(ask / oldask[i]),time, false);
+						RuleEngine.checkRules(company);
 			      }
 		      }
 
@@ -56,8 +58,10 @@ import java.io.*;
 					if (oldbid[i] * 1.05 > bid) {
 				    //Store company name, time of increase and say it was volume increase
 						Database.insertIncreaseValue(company,"bid",(bid / oldbid[i]),time, true);
+						RuleEngine.checkRules(company);
 					} else if (oldbid[i] * 0.95 < bid) {
 						Database.insertIncreaseValue(company,"bid",(bid / oldbid[i]),time, false);
+						RuleEngine.checkRules(company);
 					}
 		      }
 
