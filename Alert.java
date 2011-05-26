@@ -19,7 +19,7 @@ class Alert
 	private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 	// Constructor
-	Alert(String id,  Date time, Integer points, String company, RuleItem[] rules, NewsItem[] news)
+	Alert(String id, Date time, Integer points, String company, RuleItem[] rules, NewsItem[] news)
 	{
 		this.id = id;
 		this.time = time;
