@@ -36,19 +36,19 @@ class RuleEngine
 		int time = currentTime - 1800; //half hour = 60*30
 		
 		setup();
-		/*
-		if (rule0(company, time)) {
+		
+		if (rule0(company, time, ni)) {
 			found = true;
 		}
-		if (rule1(company, time)) {
+		if (rule1(company, time, ni)) {
 			found = true;
 		}
-		if (rule2(company, time)) {
+		if (rule2(company, time, ni)) {
 			found = true;
 		}
-		if (rule3(company, time)) {
+		if (rule3(company, time, ni)) {
 			found = true;
-		}*/
+		}
 		
 		if (found) {
 			//send alert
@@ -61,7 +61,7 @@ class RuleEngine
 			
 			Alert alert = new Alert(id, new Date(currentTime), points, company, (RuleItem[]) ALrules.toArray(), (NewsItem[]) ALnews.toArray());
 			
-			//server.sendMessageToAll(alert.encode());
+			server.sendMessageToAll(alert.encode());
 		
 		}
 	}
@@ -74,16 +74,16 @@ class RuleEngine
 		
 		setup();
 		/*
-		if (rule0(company, time)) {
+		if (rule4(company, time)) {
 			found = true;
 		}
-		if (rule1(company, time)) {
+		if (rule5(company, time)) {
 			found = true;
 		}
-		if (rule2(company, time)) {
+		if (rule6(company, time)) {
 			found = true;
 		}
-		if (rule3(company, time)) {
+		if (rule7(company, time)) {
 			found = true;
 		}*/
 		
@@ -145,7 +145,7 @@ class RuleEngine
 		rules[7] = new RuleItem("Following news release ask share price decreases",50);
 	}
 	
-	public static boolean rule0(String company, int time) {
+	public static boolean rule0(String company, int time, NewsItem ni) {
 		int[] bid = Database.getIncreaseTimes(company,"bid",time,true);
 		int bidLength = bid.length;
 		int askLength = bid.length;
@@ -153,15 +153,105 @@ class RuleEngine
 			// If there is an increase it will be before the news
 			for (int i=0; i<bidLength; i++) {
 				if (bid[i] < time) {
-// 					ALnews.add(
+					ALrules.add(rules[0]);
+ 					ALnews.add(ni);
 					return true;
 				}
 			}
 		}
-
 		
-		return true;
+		return false;
 	}
+	
+	public static boolean rule1(String company, int time, NewsItem ni) {
+		int[] bid = Database.getIncreaseTimes(company,"bid",time,false);
+		int bidLength = bid.length;
+		int askLength = bid.length;
+		if (bidLength != 0) {
+			// If there is an increase it will be before the news
+			for (int i=0; i<bidLength; i++) {
+				if (bid[i] < time) {
+					ALrules.add(rules[1]);
+ 					ALnews.add(ni);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean rule2(String company, int time, NewsItem ni) {
+		int[] bid = Database.getIncreaseTimes(company,"ask",time,true);
+		int bidLength = bid.length;
+		int askLength = bid.length;
+		if (bidLength != 0) {
+			// If there is an increase it will be before the news
+			for (int i=0; i<bidLength; i++) {
+				if (bid[i] < time) {
+					ALrules.add(rules[2]);
+ 					ALnews.add(ni);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean rule3(String company, int time, NewsItem ni) {
+		int[] bid = Database.getIncreaseTimes(company,"ask",time,false);
+		int bidLength = bid.length;
+		int askLength = bid.length;
+		if (bidLength != 0) {
+			// If there is an increase it will be before the news
+			for (int i=0; i<bidLength; i++) {
+				if (bid[i] < time) {
+					ALrules.add(rules[3]);
+ 					ALnews.add(ni);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/*public static boolean rule4(String company, int time) {
+		//Get list of news articles from about company that are today and before time
+		//int bidLength = bid.length;
+		//int askLength = bid.length;
+		if (bidLength != 0) {
+			// If there is an increase it will be before the news
+			for (int i=0; i<bidLength; i++) {
+				if (bid[i] < time) {
+					ALrules.add(rules[4]);
+ 					ALnews.add(ni);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}*/
+	
+	/*public static boolean rule5(String company, int time) {
+		//Get list of news articles from about company that are today and before time
+		//int bidLength = bid.length;
+		//int askLength = bid.length;
+		if (bidLength != 0) {
+			// If there is an increase it will be before the news
+			for (int i=0; i<bidLength; i++) {
+				if (bid[i] < time) {
+					ALrules.add(rules[5]);
+ 					ALnews.add(ni);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}*/
 
 	public static int getTodayDate() {
 		Date datetime;
