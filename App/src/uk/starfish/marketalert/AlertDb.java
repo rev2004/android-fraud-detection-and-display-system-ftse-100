@@ -5,7 +5,7 @@ import java.util.*;
 
 public class AlertDb
 {
-	private List<Alert> alerts;
+	public List<Alert> alerts;
 	public static String SEP = "_ALERTSEP_";
 	public static String FILENAME = "alerts.txt";
 	
