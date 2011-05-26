@@ -277,6 +277,47 @@ class Database
 			}
 	}
 	
+	public static void insertAlert(String company, int time, int points, String rules, String newsids) {
+		
+		try
+		{
+			ps = cxn.prepareStatement("INSERT group17_alerts (datetime, symbol, rule, points, news_ids) VALUES(?, ?, ?, ?, ?)");
+					
+			ps.setInt(1, time);
+			ps.setString(2, company);
+			ps.setString(3, rules);
+			ps.setInt(4, points);
+			ps.setString(5, newsids);
+			ps.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in insertAlert " + e);
+			System.exit(-1);
+		}
+		
+	
+	}
+	
+	public static int getAlertID(String company, int time) {
+		
+		try
+		{
+			ps = cxn.prepareStatement("SELECT id FROM group17_alerts where symbol = ? and datetime = ?");
+			ps.setString(1,company);
+			ps.setInt(2,time);
+			rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt(1);
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in getAlertID " + e);
+			System.exit(-1);
+		}
+		return 0;
+	}
 	public static String[] getCompanies() {
 	
 		String[] companies = new String[102];
@@ -323,7 +364,7 @@ class Database
 				
 				times = new int[count];
 				
-				ps = cxn.prepareStatement("SELECT datetime FROM group17_increases where company = ? and type = ? and datetime > ? and increase = ?");
+				ps = cxn.prepareStatement("SELECT datetime FROM group17_increases where company = ? and type = ? and datetime > ? and increase = ? order by datetime");
 				ps.setString(1, company);
 				ps.setString(2, type);
 				ps.setInt(3, startTime);

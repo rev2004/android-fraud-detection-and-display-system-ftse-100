@@ -1,5 +1,6 @@
 // Controls the flow of the whole server
 import network.server.*;
+import java.util.Calendar;
 
 public class Main
 {
@@ -25,14 +26,15 @@ public class Main
 
 		new RuleEngine(server);*/
 
-		Database.connect();
+		//Database.connect();
 		/*Database.insertIncreaseValue("RR","ask",20,3000,true);
 		Database.insertIncreaseValue("RR","ask",20,5000,true);
 		Database.insertIncreaseValue("RR","ask",20,12000,true);
 		Database.insertIncreaseValue("RR","ask",20,24000,true);*/
 		
-		int[] temp = Database.getIncreaseTimes("RR","ask",0,true);
-		System.out.println(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
-
+		//int[] temp = Database.getIncreaseTimes("RR","ask",0,true);
+		//System.out.println(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
+		
+		//RuleEngine.test();
 	}
 }
