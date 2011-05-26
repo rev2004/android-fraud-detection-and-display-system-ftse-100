@@ -12,7 +12,7 @@ class RuleEngine
 	public static int currentTime;
 	public static int points = 0;
 	
-	public static RuleItem[] rules = new RuleItem[4];
+	public static RuleItem[] rules = new RuleItem[5];
 
 	public static ArrayList<RuleItem> ALrules = new ArrayList<RuleItem>();
 	public static ArrayList<NewsItem> ALnews = new ArrayList<NewsItem>();
@@ -36,7 +36,7 @@ class RuleEngine
 		int time = currentTime - 1800; //half hour = 60*30
 		
 		setup();
-		
+		/*
 		if (rule0(company, time)) {
 			found = true;
 		}
@@ -47,6 +47,10 @@ class RuleEngine
 			found = true;
 		}
 		if (rule3(company, time)) {
+			found = true;
+		}*/
+
+		if (rule4(company, time)) {
 			found = true;
 		}
 		
@@ -98,12 +102,14 @@ class RuleEngine
 		rules[1] = new RuleItem("Large decrease in ask price followed shortly by increase",20);
 		rules[2] = new RuleItem("Large increase in bid price followed shortly by decrease",20);
 		rules[3] = new RuleItem("Large decrease in bid price followed shortly by increase",20);
+		rules[4] = new RuleItem("Sudden increase in share prices followed by news release",50);
 	}
 	
 	public static void reset() {
 		points = 0;
 	}
-	
+
+	/*
 	public static boolean rule0(String company, int time) {
 		int[] askI = Database.getIncreaseTimes(company,"ask",time,true);
 		int[] askD = Database.getIncreaseTimes(company,"ask",time,false);
@@ -185,8 +191,21 @@ class RuleEngine
 		
 		} 
 		return false;
-	}
+	}*/
 	
+	public static boolean rule4(String company, int time) {
+		int[] bid = Database.getIncreaseTimes(company,"bid",time,true);
+		int[] ask = Database.getIncreaseTimes(company,"ask",time,true);
+		int bidLength = bid.length;
+		int askLength = bid.length;
+		if (bidLength != 0 && askLength != 0) {
+
+		}
+
+		
+		return true;
+	}
+
 	public static int getTodayDate() {
 		Date datetime;
 		int time = 0;

@@ -83,10 +83,12 @@ class NewsFeed extends Thread
 					if (inputLine.contains("</nitem>"))
 					{
 						NewsItem n = new NewsItem(inputLine);
-						//anaysis = Sentiment.analysis(n.title + " " + n.body);
-						n.setAnaysis(true);
+						anaysis = Sentiment.analysis(n.title + " " + n.body);
+						n.setAnaysis(anaysis);
 
 						Database.insertNewsItem(n);
+
+						
 
 						inputLine = "";
 					}
@@ -120,6 +122,8 @@ class StockFeed extends Thread
 				FinanceItem f = new FinanceItem(inputLine);
 
 				PriceChanges.volumeCheck(f.symbol, f.volume, (int) (f.datetime.getTime() / 1000));
+				PriceChanges.askCheck(f.symbol, f.ask, (int) (f.datetime.getTime() / 1000));
+				PriceChanges.bidCheck(f.symbol, f.bid, (int) (f.datetime.getTime() / 1000));
 				
 				Database.insertFinanceItem(f);
 
