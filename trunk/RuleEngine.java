@@ -56,8 +56,9 @@ class RuleEngine
 			
 			Database.insertAlert(company, currentTime, points, rulesToString(), "");
 			int alertID = Database.getAlertID(company, currentTime);
+			String id =  Integer.toString(alertID);
 			
-			Alert alert = new Alert((String) alertID, new Date(currentTime), points, company, (RuleItem[]) ALrules.toArray(), (NewsItem[]) ALnews.toArray());
+			Alert alert = new Alert(id, new Date(currentTime), points, company, (RuleItem[]) ALrules.toArray(), (NewsItem[]) ALnews.toArray());
 			
 			//server.sendMessageToAll(alert.encode());
 		
