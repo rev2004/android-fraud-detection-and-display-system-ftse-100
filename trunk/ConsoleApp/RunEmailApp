@@ -1,0 +1,3 @@
+rm *.class
+javac -classpath '.:mail.jar' EmailServer.java
+java -classpath '.:mail.jar' EmailServer
