@@ -8,57 +8,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	static final String dbName="alertDB";
 	
-	static final String alertTable="AlertsTB";
-	static final String colID="AlertID";
-	static final String colDate="Alert Date-time Stamp";
-	static final String colTotalPoints="Total Points";
-	static final String colCompany="Company";
+	static final String alertTable="Alert";
+	static final String alertID="_id";
+	static final String alertTime="time";
+	static final String alertPoints="points";
+	static final String alertCompany="company";
 
-	static final String newsTable="NewsTB";
-	static final String colNAlertID="AlertID";
-	static final String colSource="News Source";
-	static final String colNDate="News Date-time Stamp";
-	static final String colTitle="News Title";
-	static final String colBody="News Body";
+	static final String newsTable="News";
+	static final String newsID="_id";
+	static final String newsAlertID="alertID";
+	static final String newsSource="source";
+	static final String newsTime="time";
+	static final String newsTitle="title";
+	static final String newsBody="body";
 	
-	static final String rulesTable="RulesTB";
-	static final String colRAlertID="AlertID";
-	static final String colPoints="Rule Points";
-	static final String colRule="Rule Info";
+	static final String rulesTable="Rules";
+	static final String rulesAlertID="alertID";
+	static final String rulesPoints="points";
+	static final String rulesName="name";
 	
 	static final String viewEmps="ViewEmps";
 	
 	public DatabaseHelper(Context context) {
-		  super(context, dbName, null,33); 
+		  super(context, dbName, null, 33); 
 		  }
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		
-		db.execSQL("CREATE TABLE "+alertTable+" ("+colID+ " INTEGER PRIMARY KEY , "
-												  +colDate+ " INTEGER NOT NULL, "
-												  +colTotalPoints+ "INTEGER NOT NULL, "
-												  +colCompany+" TEXT NOT NULL)");
+		db.execSQL("CREATE TABLE "+alertTable+" ("+alertID+ " INTEGER PRIMARY KEY , "
+												  +alertTime+ " INTEGER NOT NULL, "
+												  +alertPoints+ "INTEGER NOT NULL, "
+												  +alertCompany+" TEXT NOT NULL)");
 		
-		db.execSQL("CREATE TABLE "+newsTable+" ("+colNAlertID+ " INTEGER NOT NULL, "
-				  								 +colSource+ " TEXT NOT NULL, "
-				  								 +colNDate+ "INTEGER NOT NULL, "
-				  								 +colTitle+" TEXT NOT NULL, "
-				  								 +colBody+" TEXT NOT NULL," +
-				  								 "FOREIGN KEY ("+colNAlertID+") REFERENCES "+alertTable+" ("+colID+")))");
+		db.execSQL("CREATE TABLE "+newsTable+" ("+newsID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				  								 +newsSource+ " TEXT NOT NULL, "
+				  								 +newsTime+ "INTEGER NOT NULL, "
+				  								 +newsTitle+" TEXT NOT NULL, "
+				  								 +newsBody+" TEXT NOT NULL," +
+				  								 "FOREIGN KEY ("+newsAlertID+") REFERENCES "+alertTable+" ("+alertID+")))");
 		
-		db.execSQL("CREATE TABLE "+rulesTable+" ("+colRAlertID+ " INTEGER NOT NULL , "
-												 +colPoints+ " INTEGER NOT NULL, "
-												 +colRule+ " TEXT NOT NULL, "+
-				  								 "FOREIGN KEY ("+colNAlertID+") REFERENCES "+alertTable+" ("+colID+")))");
+		db.execSQL("CREATE TABLE "+rulesTable+" ("+rulesID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
+												 +rulesPoints+ " INTEGER NOT NULL, "
+												 +rulesName+ " TEXT NOT NULL, "+
+				  								 "FOREIGN KEY ("+rulesAlertID+") REFERENCES "+alertTable+" ("+alertID+")))");
 		  
 		db.execSQL("CREATE TRIGGER fk_empalert_nalertid " +
 				" BEFORE INSERT "+
 				" ON "+newsTable+
 				
 				" FOR EACH ROW BEGIN"+
-				" SELECT CASE WHEN ((SELECT "+colID+" FROM"+alertTable+
-				" WHERE "+colID+"=new."+colNAlertID+" ) IS NULL)"+
+				" SELECT CASE WHEN ((SELECT "+alertID+" FROM"+alertTable+
+				" WHERE "+alertID+"=new."+newsAlertID+" ) IS NULL)"+
 				" THEN RAISE (ABORT,'Foreign Key Violation') END;"+
 				"  END;");
 				
@@ -67,8 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				" ON "+rulesTable+
 				
 				" FOR EACH ROW BEGIN"+
-				" SELECT CASE WHEN ((SELECT "+colID+" FROM"+alertTable+
-				" WHERE "+colID+"=new."+colRAlertID+" ) IS NULL)"+
+				" SELECT CASE WHEN ((SELECT "+alertID+" FROM"+alertTable+
+				" WHERE "+alertID+"=new."+rulesAlertID+" ) IS NULL)"+
 				" THEN RAISE (ABORT,'Foreign Key Violation') END;"+
 				"  END;");
 		
