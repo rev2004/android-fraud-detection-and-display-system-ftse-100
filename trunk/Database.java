@@ -186,6 +186,7 @@ class Database
 				
 				if (Sentiment.company(company, symbol, ni.title, ni.body)) {
 					insertRating(symbol, ni.anaysis, newsid);
+					RuleEngine.checkRules(symbol);
 					//System.out.println(company);
 				}
 			}
@@ -359,6 +360,8 @@ class Database
 			rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
+			System.out.println(ps);
+			System.out.println(ps);
 
 			if (count > 0) {
 				
