@@ -13,11 +13,11 @@ class RuleEngine
 	public static int points = 0;
 	
 	public static RuleItem[] rules = new RuleItem[4];
-	
+
 	public static ArrayList<RuleItem> ALrules = new ArrayList<RuleItem>();
 	public static ArrayList<NewsItem> ALnews = new ArrayList<NewsItem>();
 	
-	public static void setup(Server server) {
+	public static void setup() {
 	
 
 		//company = Database.getCompanies();
@@ -25,8 +25,7 @@ class RuleEngine
 	
 		getTodayDate();
 	
-		reset();
-		
+		reset();		
 	
 	}
 	
@@ -35,6 +34,8 @@ class RuleEngine
 		Calendar cal = Calendar.getInstance();
 		currentTime = (int) (cal.getTimeInMillis() / 1000);
 		int time = currentTime - 1800; //half hour = 60*30
+		
+		setup();
 		
 		if (rule0(company, time)) {
 			found = true;
